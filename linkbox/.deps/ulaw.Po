@@ -1,0 +1,1 @@
+ulaw.o: ulaw.c
