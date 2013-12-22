@@ -16,6 +16,10 @@
 
 
 # $Log: Makefile.am,v $
+
+# ON1ARF
+# 2013/11/14: add support for portaudio, link to -lportaudio
+
 # Revision 1.11  2010/01/14 19:34:53  wb6ymh
 # Added libhrprof to link when profiling.
 #
@@ -73,8 +77,8 @@ POST_INSTALL = :
 NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
-build_triplet = i686-pc-linux-gnu
-host_triplet = i686-pc-linux-gnu
+build_triplet = armv5tel-unknown-linux-gnu
+host_triplet = armv5tel-unknown-linux-gnu
 libexec_PROGRAMS = tlb$(EXEEXT)
 #am__append_1 = $(top_builddir)/hrprof/libhrprof.a
 #am__append_2 = usbdev.cpp
@@ -133,29 +137,32 @@ DIST_SOURCES = $(am__tlb_SOURCES_DIST)
 ETAGS = etags
 CTAGS = ctags
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
-ACLOCAL = ${SHELL} /home/kristoff/ham/thelinkbox-on1arf/config/missing --run aclocal-1.11
-AMTAR = ${SHELL} /home/kristoff/ham/thelinkbox-on1arf/config/missing --run tar
-AUTOCONF = ${SHELL} /home/kristoff/ham/thelinkbox-on1arf/config/missing --run autoconf
-AUTOHEADER = ${SHELL} /home/kristoff/ham/thelinkbox-on1arf/config/missing --run autoheader
-AUTOMAKE = ${SHELL} /home/kristoff/ham/thelinkbox-on1arf/config/missing --run automake-1.11
+ACLOCAL = ${SHELL} /home/kristoff/thelinkbox-0.53-fifo/config/missing --run aclocal-1.11
+AMTAR = ${SHELL} /home/kristoff/thelinkbox-0.53-fifo/config/missing --run tar
+AUTOCONF = ${SHELL} /home/kristoff/thelinkbox-0.53-fifo/config/missing --run autoconf
+AUTOHEADER = ${SHELL} /home/kristoff/thelinkbox-0.53-fifo/config/missing --run autoheader
+AUTOMAKE = ${SHELL} /home/kristoff/thelinkbox-0.53-fifo/config/missing --run automake-1.11
 AWK = gawk
 CC = gcc
 CCDEPMODE = depmode=gcc3
-CFLAGS = -g -O2
+#CFLAGS = -g -O2 -Wall
+CFLAGS = -g -Wall
 CPP = gcc -E
 CPPFLAGS = 
 CXX = g++
 CXXDEPMODE = depmode=gcc3
-CXXFLAGS = -g -O2
+#CXXFLAGS = -g -O2 -Wall
+CXXFLAGS = -g -Wall
 CYGPATH_W = echo
-DEFS = -DHAVE_CONFIG_H
+# ON1ARF: add portaudio
+DEFS = -DHAVE_CONFIG_H -D__PORTAUDIO__
 DEPDIR = .deps
 ECHO_C = 
 ECHO_N = -n
 ECHO_T = 
-EGREP = /bin/grep -E
+EGREP = /usr/bin/grep -E
 EXEEXT = 
-GREP = /bin/grep
+GREP = /usr/bin/grep
 HAVE_EVIOCGUNIQ = 1
 HAVE_SIGNED_BITTYPES = 0
 HAVE_UNSIGNED_BITTYPES = 0
@@ -171,7 +178,7 @@ LIBREADLINE =
 LIBS = 
 LN_S = ln -s
 LTLIBOBJS = 
-MAKEINFO = ${SHELL} /home/kristoff/ham/thelinkbox-on1arf/config/missing --run makeinfo
+MAKEINFO = ${SHELL} /home/kristoff/thelinkbox-0.53-fifo/config/missing --run makeinfo
 MKDIR_P = /usr/bin/mkdir -p
 OBJEXT = o
 PACKAGE = thelinkbox
@@ -184,13 +191,13 @@ PACKAGE_VERSION =
 PATH_SEPARATOR = :
 RANLIB = ranlib
 SET_MAKE = 
-SHELL = /bin/bash
+SHELL = /bin/sh
 STRIP = 
 VERSION = 0.53
-abs_builddir = /home/kristoff/ham/thelinkbox-on1arf/linkbox
-abs_srcdir = /home/kristoff/ham/thelinkbox-on1arf/linkbox
-abs_top_builddir = /home/kristoff/ham/thelinkbox-on1arf
-abs_top_srcdir = /home/kristoff/ham/thelinkbox-on1arf
+abs_builddir = /home/kristoff/thelinkbox-0.53-fifo/linkbox
+abs_srcdir = /home/kristoff/thelinkbox-0.53-fifo/linkbox
+abs_top_builddir = /home/kristoff/thelinkbox-0.53-fifo
+abs_top_srcdir = /home/kristoff/thelinkbox-0.53-fifo
 ac_ct_CC = gcc
 ac_ct_CXX = g++
 am__include = include
@@ -199,11 +206,11 @@ am__quote =
 am__tar = ${AMTAR} chof - "$$tardir"
 am__untar = ${AMTAR} xf -
 bindir = ${exec_prefix}/bin
-build = i686-pc-linux-gnu
+build = armv5tel-unknown-linux-gnu
 build_alias = 
-build_cpu = i686
+build_cpu = armv5tel
 build_os = linux-gnu
-build_vendor = pc
+build_vendor = unknown
 builddir = .
 datadir = ${datarootdir}
 datarootdir = ${prefix}/share
@@ -212,15 +219,15 @@ dvidir = ${docdir}
 exec_prefix = ${prefix}
 have_c = y
 have_cplus_plus = y
-host = i686-pc-linux-gnu
+host = armv5tel-unknown-linux-gnu
 host_alias = 
-host_cpu = i686
+host_cpu = armv5tel
 host_os = linux-gnu
-host_vendor = pc
+host_vendor = unknown
 htmldir = ${docdir}
 includedir = ${prefix}/include
 infodir = ${datarootdir}/info
-install_sh = ${SHELL} /home/kristoff/ham/thelinkbox-on1arf/config/install-sh
+install_sh = ${SHELL} /home/kristoff/thelinkbox-0.53-fifo/config/install-sh
 libdir = ${exec_prefix}/lib
 libexecdir = ${exec_prefix}/libexec
 localedir = ${datarootdir}/locale
@@ -245,6 +252,7 @@ tlb_SOURCES = ports.cpp ctcss.c ctcss.h devinput.cpp devinput.h \
 	voip.h nodes.h nodes.cpp linkbox.h filters.cpp filters.h \
 	Ctext.cpp Ctext.h radio_ctrl.h dh.cpp ulaw2linear.h ulaw.c \
 	devices.h devices.cpp $(am__append_2)
+#ON1ARF: add portaudio
 tlb_LDADD = $(top_builddir)/src/libtbd.a \
 	$(top_builddir)/common/libcommon.a \
 	$(top_builddir)/zlib/libzlib.a \
@@ -252,7 +260,7 @@ tlb_LDADD = $(top_builddir)/src/libtbd.a \
 	$(top_builddir)/spandsp/libspandsp.a \
 	$(top_builddir)/adpcm/libadpcm.a $(top_builddir)/src/libtbd.a \
 	$(LIBDMALLOC) $(top_builddir)/soundmodem/libsoundmodem.a \
-	$(am__append_1) -lm $(am__append_3)
+	$(am__append_1) -lm -lportaudio $(am__append_3)
 AM_CPPFLAGS = -I$(top_srcdir)/inc -I$(top_srcdir)/gsm/inc -DLINK_BOX \
 	-I$(top_srcdir)/zlib -I$(top_srcdir)/spandsp \
 	-I$(top_srcdir)/adpcm -I$(top_srcdir)/src \

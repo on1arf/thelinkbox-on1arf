@@ -561,7 +561,7 @@ configure:5797: $? = 0
 configure:5797: result: yes
 configure:5810: checking for stricmp
 configure:5810: gcc -o conftest -g -O2   conftest.c  >&5
-/tmp/ccMYYM6r.o: In function `main':
+/tmp/cclYX4kp.o: In function `main':
 /home/kristoff/ham/thelinkbox-on1arf/conftest.c:69: undefined reference to `stricmp'
 collect2: ld returned 1 exit status
 configure:5810: $? = 1
@@ -677,6 +677,7 @@ config.status:913: creating scripts/Makefile
 config.status:913: creating soundmodem/Makefile
 config.status:913: creating hrprof/Makefile
 config.status:913: creating config.h
+config.status:1085: config.h is unchanged
 config.status:1133: executing depfiles commands
 
 ## ---------------- ##

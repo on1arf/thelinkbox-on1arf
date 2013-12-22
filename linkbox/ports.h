@@ -177,7 +177,10 @@
 struct pashared_str {
 	// ringbuffers + pointers in ringbuffers
 	int16_t *i_ringbuffer[PA_NUMBUFF], *o_ringbuffer[PA_NUMBUFF];
-	int i_ringbuffer_c, i_ringbuffer_p, o_ringbuffer_c, o_ringbuffer_p;
+	int i_ringbuffer_c;
+	int i_ringbuffer_p;
+	int o_ringbuffer_c;
+	int o_ringbuffer_p;
 			// i_ o_ : input or output
 			// _c _p : consumer or producer
 
@@ -222,8 +225,8 @@ public:
    void SendCwId();
 
 // ON1ARF
-#ifdef __NEEDPORTAUDIO__
-// portaudio queue audio
+#ifdef __NEEDPORTAUDIODEBUG__
+	portaudio queue audio
 	int pa_queueaudio(char  * AudioBuffer, int BytesToSend);
 	int pa_getaudio(char * AudioBuffer, int BytesToRead);
 #endif

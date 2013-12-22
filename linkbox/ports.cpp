@@ -569,7 +569,7 @@ CPort::CPort()
 	AudioOutMuted = 0; // not muted
 
 	// some other vars
-#ifdef __PORTAUDIO__
+#ifdef __PORTAUDIODEBUG__
 	// should be done during AudioInit, but do it here too, just to be sure
 	pa_active=0;
 	pa.i_ringbuffer_c=-1;
@@ -614,7 +614,7 @@ CPort::~CPort()
    UsbShutdown();
 #endif
 
-#ifdef __PORTAUDIO__
+#ifdef __PORTAUDIODEBUG__
 	// stop portaudio if active
 	if (pa_active) {
 		Pa_Terminate();
@@ -625,7 +625,7 @@ CPort::~CPort()
 }
 
 // ON1ARF
-#ifdef __PORTAUDIO__
+#ifdef __PORTAUDIODEBUG__
 
 // callback function for portaudio
 static int funct_pacallback( const void *inputBuffer, void *outputBuffer, unsigned long framesPerBuffer,
@@ -774,7 +774,7 @@ return paContinue;
 
 
 
-// function Portaudio GET AUDIO
+// function PORTAUDIO GET AUDIO
 int CPort::pa_getaudio (char * AudioBuffer, int BytesToRead) {
 
 int BytesToCopy;
@@ -1318,7 +1318,7 @@ int CPort::WriteAudioOut(ClientInfo *p)
 			}; // end if
 
 
-#ifdef __PORTAUDIO__
+#ifdef __PORTAUDIODEBUG__
 		} else if (AudioDeviceType == 4) {
 			// PORTAUDIO
 
@@ -1551,9 +1551,10 @@ int CPort::WriteAudioOut(ClientInfo *p)
 					if (p->Socket2) {
 			         wrote = write(p->Socket2,pWriteData,Bytes2Write);
 					}; // end if
-#ifdef __PORTAUDIO__
+#ifdef __PORTAUDIODEBUG__
 				} else if (AudioDeviceType == 4) {
-					wrote = pa_queueaudio(pWriteData,Bytes2Write);
+//					wrote = pa_queueaudio(pWriteData,Bytes2Write);
+					wrote = 0;
 #endif
 				}; // end elseif - elseif  - if 
 
@@ -1922,7 +1923,7 @@ void CPort::GetAudioIn(ClientInfo *p)
 		// No minimal Audio Write size
 		MinAudioWrite=0;
 
-#ifdef __PORTAUDIO__
+#ifdef __PORTAUDIODEBUG__
 	} else if (AudioDeviceType == 4) {
 		// PORTAUDIO
 
@@ -1981,11 +1982,12 @@ void CPort::GetAudioIn(ClientInfo *p)
 		if ((AudioDeviceType == 1) || (AudioDeviceType == 2)) {
 			// OSS or FIFO: read from file / FIFO
 	      Read = read(p->Socket,pWriteData,MaxRead);
-#ifdef __PORTAUDIO__
+#ifdef __PORTAUDIODEBUG__
 		} else if (AudioDeviceType == 4) {
 			// PORTAUDIO
 
-	      Read = pa_getaudio(pWriteData,MaxRead);
+//	      Read = pa_getaudio(pWriteData,MaxRead);
+	      Read = 0;
 #endif
 		}; // end (elsif) if
 
@@ -2695,7 +2697,7 @@ int CPort::AudioInit()
 #endif
 
 // ON1ARF
-#ifdef __PORTAUDIO__
+#ifdef __PORTAUDIODEBUG__
 	// local vars
 	PaStream * pastream;
 	PaError pa_ret;
@@ -3022,7 +3024,8 @@ int CPort::AudioInit()
 
 			// AudioDeviceType PORTAUDIO
 
-#ifdef __PORTAUDIO__
+#ifdef __PORTAUDIODEBUG__
+fprintf(stderr,"INSIDE AUDIOINIT\n");
 			// local vars
 			int l,l2; //loop
 			int numdevice, devicefound, deviceid, maxnumchannel;
@@ -3032,7 +3035,7 @@ int CPort::AudioInit()
 			// (let's not make thing more complicated then needed)
 			if ((PCMRate != 8000) && (PCMRate != 48000)) {
 				LOG_ERROR(("%s: PortAudio failed: samplerate should be 8000 or 48000, got %d",__FUNCTION__,SampleRate));
-         	Ret = ERR_CONFIG_FILE;
+	        	Ret = ERR_CONFIG_FILE;
 				break;
 			}; // end if
 
